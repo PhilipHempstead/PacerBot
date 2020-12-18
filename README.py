@@ -30,8 +30,8 @@ def start_mode_2( pos_Kp, pos_Kd, ramp_rate ):
     target_pos = 8  #The target position is 8 ft infront of the runner
     Base_speed = 60  #May change this value later.
     #odrv0.axis0.controller.config.vel_ramp_rate = ramp_rate
-	  #odrv0.axis0.controller.config.input_mode = INPUT_MODE_VEL_RAMP
-	  #odrv0.axis0.requested_state = AXIS_STATE_SENSORLESS_CONTROL
+    #odrv0.axis0.controller.config.input_mode = INPUT_MODE_VEL_RAMP
+    #odrv0.axis0.requested_state = AXIS_STATE_SENSORLESS_CONTROL
 
     direction = 1
     last_error = 0
@@ -100,6 +100,7 @@ def rotate_lidar(direction):
         return closest
     return -1
 
+#This funtion gets a LiDAR sensor reading and returns the value in feet
 def getTFminiData():
     #print("function called")
     #while True:
@@ -127,19 +128,8 @@ def getTFminiData():
         return 100
     
 def mode2_steering( Kp, Kd, input_vel ):
-    print("arrived")
-    center = 104
-    error = 0
-    last_error = 0
-    x_last = 104
-    y_last = 72
-    #Kp = 1
-    #Kd = 20
-
     while True:
         if keyboard.is_pressed('q'):
-            #slow_to_stop( input_vel )
-
             break
     return
 
@@ -162,7 +152,7 @@ try:
         ser.open()
     with concurrent.futures.ThreadPoolExecutor() as executor: #Start multiprocessing. 
         start = time.perf_counter()
-        f1 = executor.submit( mode2_steering, Kp, Kd, 10 ). #mode2_steering() algorithm is for the computer vision/linefollowing
+        f1 = executor.submit( mode2_steering, Kp, Kd, 10 )  #mode2_steering() algorithm is for the computer vision/linefollowing
         f2 = executor.submit( start_mode_2, pos_Kp, pos_Kd, ramp_rate) #start_mode_2 starts the main motor speed adjustment algorithm
 except KeyboardInterrupt:   # Ctrl+C
         #odrv0.axis0.requested_state = AXIS_STATE_IDLE
