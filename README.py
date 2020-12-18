@@ -1,5 +1,6 @@
 # PacerBot
-#This code is strictly for working on and improving the LiDAR sweep cycle algorithm. That is why the "mode2_steering()" function, which is intended to perform #computer vision, is empty. All of the main motor commands are commented out for this same reason as well. The main motor commands can be identified as commands #starting with "odrv0.axis0".
+#This code is strictly for working on and improving the LiDAR sweep cycle algorithm. That is why the "mode2_steering()" function, which is intended to perform 
+#computer vision, is empty. All of the main motor commands are commented out for this same reason as well. The main motor commands can be identified as commands #starting with "odrv0.axis0".
 
 #If you scroll past all of these functions you will arrive at where the program starts for "mode 2". 
 
@@ -152,7 +153,7 @@ Kd = float(input("Enter steering Kd: "))
 #pos_Kp and pos_Kd are the coefficients for the main motor speed adjustment PID algorithm	
 pos_Kp = float(input("Enter lidar Kp (10): "))
 pos_Kd = float(input("Enter lidar Kd (100): "))
-ramp_rate = float(input("Enter ramp rate: ")) #ramp_rate is the rate at which the main motor accelerates/decelerates to its new velocity
+ramp_rate = float(input("Enter ramp rate: ")) #ramp_rate is the rate at which the main motor accelerates/decelerates to its adjusted velocity given by the PID algorithm
 	
 
 print("Press 'q' to quit: ")
