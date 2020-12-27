@@ -12,7 +12,7 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 import cv2
 import numpy as np
-from gpiozero import Servo
+from gpiozero import AngularServo
 
 import concurrent.futures
 import time
@@ -22,8 +22,8 @@ ser = serial.Serial("/dev/ttyAMA0", 115200)
 
 servo_steer = Servo("BOARD32")
 servo_steer.value = 0.05
-servo_lidar = Servo("BOARD31")
-servo_lidar.value = 0.05
+servo_lidar = AngularServo("BOARD31", min_angle=-45, max_angle=45)
+servo_lidar.angle = 0.00
 
 prev_reading = 100 #I declare this global variable so that the sweep cycle can use the variable from the last cycle
 
@@ -69,15 +69,15 @@ def start_mode_2( pos_Kp, pos_Kd, ramp_rate ):
 def rotate_lidar(direction):
 
     if direction == 1: #if direction == 1, the lidar sweeps right
-        servo_lidar.value = -0.06
+        servo_lidar.angle = 7
         closest = prev_reading
 	
 	#The following two lines create an output for debugging
-        out = "0: " + str(closest) + "  pos: " + str(-0.06)
+        out = "0: " + str(closest) + "  pos: " + str(7)
         print(out)
 	
         for x in range(1,4):  #adjust the servo position and perform 3 more readings
-            servo_lidar.value = servo_lidar.value + 0.04
+            servo_lidar.angle = servo_lidar.angle + 4.68
             time.sleep(0.05)
             dist = getTFminiData()
 
@@ -89,21 +89,21 @@ def rotate_lidar(direction):
 		prev_reading = dist
 		
 	    #The following three lines create an output for the sake of debugging
-            pos = -0.06 + (x*0.04)
+            pos = 7 + (x*4.68)
             out = str(x) + ": " + str(dist) + "  pos: " + str(pos)
             print(out)
 		
         return closest
     else: #if direction == 0, lidar sweeps left
-        servo_lidar.value = 0.06
+        servo_lidar.angle = 21.04
         closest = prev_reading
 	
 	#The following to lines create an output for debugging
-        out = "0: " + str(closest) + "  pos: " + str(0.06)
+        out = "0: " + str(closest) + "  pos: " + str(21.04)
         print(out)
 	
         for x in range(1,4):
-            servo_lidar.value = servo_lidar.value - 0.04
+            servo_lidar.angle = servo_lidar.angle - 4.68
             time.sleep(0.05)
             dist = getTFminiData()
 	
@@ -115,7 +115,7 @@ def rotate_lidar(direction):
 		prev_reading = dist
 		
             #The following three lines create an output for the sake of debugging
-            pos = 0.06 - (x*0.04)
+            pos = 21.04 - (x*4.68)
             out = str(x) + ": " + str(dist) + "  pos: " + str(pos)
             print(out)
 		
