@@ -111,8 +111,8 @@ def rotate_lidar(direction):
         	    closest = dist
 			
 	    if x == 3:
-		global prev_reading
-		prev_reading = dist
+	        global prev_reading
+                prev_reading = dist
 		
             #The following three lines create an output for the sake of debugging
             pos = 21.04 - (x*4.68)
